@@ -1,15 +1,17 @@
 ---
+import { getImage, Image } from 'astro:assets';
+
 const {post} = Astro.props;
 ---
 
 <article>
     <a href={`/blog/${post.slug}`}>
-        <img
+        <Image 
             src={post.data.image}
             width={600}
             height={600 / 1.5}
             alt={post.data.title}
-        >
+        />
     </a>
     <a href={`/blog/${post.slug}`}>
         <h2>{post.data.title}</h2>
