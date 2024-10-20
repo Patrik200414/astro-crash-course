@@ -4,28 +4,15 @@ import Layout from '../../layouts/Layout.astro';
 import Main from '../../components/Main.astro';
 import H1 from '../../components/H1.astro';
 import Image from 'astro/components/Image.astro';
+import { getEntryBySlug } from 'astro:content';
 
-export const getStaticPaths = async () => {
-    const posts = await getCollection('posts');
-    const paths = posts.map(post => {
-        return {
-            params: {
-                slug: post.slug
-            },
-            props: {
-                post
-            }
-        }
-    });
+const {slug} = Astro.params;
+const post = await getEntryBySlug('posts', slug);
 
-    return paths;
+if(!post){
+    return Astro.redirect('/404');
 }
 
-type Props = {
-    post: CollectionEntry<'posts'>
-};
-
-const {post} = Astro.props;
 const {Content} = await post.render();
 ---
 
